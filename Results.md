@@ -79,6 +79,7 @@ The first entry, Sarah Thompson, was used in the initial prompt to check the res
 
 ## Chat GPT 3.5-turbo Response
 GPT 3.5 responded by simply outputing the json file format without any additional details.
+Other than that, it did not follow instructions very well...
 
 ```
 {
@@ -756,7 +757,10 @@ Based on the information provided, this query was categorized as a Technical Sup
 
 ## Comparison
 Let's compare the results side by side.
-i used Gpt 3.5 to format all the responses into .md from a spreadsheet
+i used Gpt 3.5 to format all the responses from their generated json responses into a markdown spreadsheet
+Interestingly, GPT 3.5 only correctly catagorized Sarah's request. Every other request's secondary catagory was generated on a per response basis without respect to the instructions.
+Claude-instant generated responses at the same speed as Gpt 3.5 and followed the instructions!
+
 |GPT 3.5| GPT 4|Claude-Instant|Claude-Instant 100k|Claude 2-100k|
 |-----------|-------------|----------------|---------------------------|-------------------|
 |"account": "sarah.thompson@madeBy.AI"<br>"id": "98765432"<br>"primary": "Technical Support"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "11775784"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "87951659"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Password reset"|
