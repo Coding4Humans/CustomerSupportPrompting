@@ -1,616 +1,491 @@
 ## Preface
 After a few itterations with small changes i was able to get GPT 3.5 to format all the syntehsized JSON data into a markdown spreadsheet format. 
-To ge thtis to work i had to create the first two rows as an example, explicitely request that it replace "," with <br>, and correct the weird formatting from the copied responses from the various LLMs. GPT 3.5 and Claude instant required no manual formatting adjustments. The rest had various indentations that were easily remedied by pasting in a notepad and shift-tabbing to remove the indent.
-It took GPT 3.5 (3) "Continue generating response"
+To ge thtis to work i had to create the first two rows as an example, explicitely request that it replace "," with <br>, remove the quotation marks ", and manually correct the weird formatting from the copied responses from the various LLMs. 
+
+<br> is explicitely used to enable a clean and readable paste into google sheets
+
 Here is the prompt chain.
 Since the prompts are large i'll be separating them with headers
-
 
 ### Prompt
 ```
 Help me format JSON files into a markdown spreadsheet by formatting the JSON data as plain text and delineate the entire JSON block with | to separate the cells.
 Each JSON data structure should be in one cell.
-I will give you the JSON for each column separately.
-Here is an example with the correct header and first two rows converting the JSON data to markdown format and using <br> to replace commas and line breaks as necessary to keep the JSON data in one cell and organizing the cells by correct row and column
-|GPT 3.5| GPT 4|Claude-Instant|Claude-Instant 100k|Claude 2-100k|
+I will give you the JSON for each column separately with the name of the column first.
+
+Here is an example with the correct header and first two rows converting the JSON data to markdown format, removing all “ and using <br> to replace commas and line breaks as necessary to keep the JSON data in one cell and organizing the cells by correct row and column
+|GPT 3.5| GPT 4|Claude-Instant|Claude-Instant-100k|Claude-2-100k|
 |-----------|-------------|----------------|---------------------------|-------------------|
-|"account": "sarah.thompson@madeBy.AI"<br>"id": "98765432"<br>"primary": "Technical Support"<br>"secondary": "Password reset" | "account": "sarah.thompson@madeByAI.com"<br>"id": "12345678"<br>"primary": "AccountManagement"<br>"secondary": "Password reset" | "account": "sarah.thompson@madeBy.AI"<br>"id": "11775784"<br>"primary": "Account Management"<br>"secondary": "Password reset" | "account": "sarah.thompson@madeBy.AI"<br>"id": "87951659"<br>"primary": "Account Management"<br>"secondary": "Password reset" | "account": "sarah.thompson@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Password reset" |
-|"account": "michael.davis@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Order status" | "account": "michael.davis@madeBy.AI"<br>"id": "23456789"<br>"primary": "General Inquiry"<br>"secondary": "Product information" | ""account": "michael.davis@madeBy.AI"<br>"id": "05543762"<br>"primary": "General Inquiry"<br>"secondary":"Product information" | "account": "michael.davis@madeBy.AI"<br>"id": "41985537"<br>"primary": "General Inquiry"<br>"secondary": "Pricing" | "account": "michael.davis@madeBy.AI"<br>"id": "76549230"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting" |
+|account: john.doe@madeBy.AI<br>id: 98765432<br>primary: Billing<br>secondary: Cancel Subscription|account: john.doe@madeBy.AI<br>id: 12345678<br>primary: Billing<br>secondary: Cancel Subscription|account: john.doe@madeBy.AI<br>id: 34567321<br>primary: Billing<br>secondary: Cancel Subscription|john.doe@madeBy.AI: 33555668<br>primary: Billing<br>secondary: Cancel Subscription|account: john.doe@madeBy.AI<br>id: 54546785<br>primary: Billing<br>secondary: Cancel Subscription|
+|account: jane.smith@madeBy.AI<br>id: 12345678<br>primary: Billing<br>secondary: Refund or Replacement|account: jane.smith@madeBy.AI<br>id: 23456789<br>primary: Billing<br>secondary: Refund or Replacement|account: jane.smith@madeBy.AI<br>id: 75567718<br>primary: Billing<br>secondary: Refund or Replacement|jane.smith@madeBy.AI: 33555664<br>primary: Billing<br>secondary: Refund or Replacement|account: jane.smith@madeBy.AI<br>id: 12092763<br>primary: Billing<br>secondary: Refund or Replacement|
 
+Please make your reply in markdown code format so that it can be copied and pasted into a .md file
 
-Here is the JSON for GPT 3.5
+Here is the data for GPT 3.5
 {
-"account": "sarah.thompson@madeBy.AI",
+"account": "john.doe@madeBy.AI",
 "id": "98765432",
-"primary": "Technical Support",
-"secondary": "Password reset"
+"primary": "Billing",
+"secondary": "Cancel Subscription"
 }
 {
-"account": "michael.davis@madeBy.AI",
+"account": "jane.smith@madeBy.AI",
 "id": "12345678",
-"primary": "Account Management",
-"secondary": "Order status"
-}
-{
-"account": "emma.wilson@madeBy.AI",
-"id": "23456789",
 "primary": "Billing",
-"secondary": "Refund and cancellation"
+"secondary": "Refund or Replacement"
 }
 {
-"account": "laura.roberts@madeBy.AI",
-"id": "34567890",
-"primary": "Account Management",
-"secondary": "Order confirmation"
-}
-{
-"account": "mark.anderson@madeBy.AI",
-"id": "45678901",
-"primary": "Technical Support",
-"secondary": "Device synchronization"
-}
-{
-"account": "sophia.ramirez@madeBy.AI",
-"id": "56789012",
-"primary": "Billing",
-"secondary": "Return and exchange"
-}
-{
-"account": "ethan.collins@madeBy.AI",
-"id": "67890123",
-"primary": "Account Management",
-"secondary": "Account suspension"
-}
-{
-"account": "olivia.smith@madeBy.AI",
-"id": "78901234",
-"primary": "Account Management",
-"secondary": "Order status"
-}
-{
-"account": "nathan.turner@madeBy.AI",
-"id": "89012345",
-"primary": "Technical Support",
-"secondary": "Device troubleshooting"
-}
-{
-"account": "chloe.adams@madeBy.AI",
-"id": "90123456",
-"primary": "Account Management",
-"secondary": "Email subscription"
-}
-{
-"account": "daniel.miller@madeBy.AI",
-"id": "65432109",
-"primary": "Account Management",
-"secondary": "Warranty repair/replacement"
-}
-{
-"account": "sophia.lee@madeBy.AI",
-"id": "76543210",
-"primary": "Billing",
-"secondary": "Return or refund"
-}
-{
-"account": "benjamin.wright@madeBy.AI",
+"account": "michael.johnson@madeBy.AI",
 "id": "87654321",
-"primary": "Account Management",
-"secondary": "Application status"
-}
-{
-"account": "ava.green@madeBy.AI",
-"id": "98765432",
-"primary": "Technical Support",
-"secondary": "Device troubleshooting"
-}
-{
-"account": "henry.davis@madeBy.AI",
-"id": "09876543",
 "primary": "Billing",
-"secondary": "Return and refund"
+"secondary": "Explanation for Charge"
 }
 {
-"account": "lily.thompson@madeBy.AI",
-"id": "21098765",
-"primary": "Account Management",
-"secondary": "Reservation confirmation"
+"account": "emily.brown@madeBy.AI",
+"id": "45678901",
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
 }
 {
-"account": "carter.adams@madeBy.AI",
-"id": "32109876",
+"account": "david.wilson@madeBy.AI",
+"id": "23456789",
 "primary": "Technical Support",
-"secondary": "System installation"
+"secondary": "General Troubleshooting"
 }
-{
-"account": "emily.white@madeBy.AI",
-"id": "43210987",
-"primary": "Account Management",
-"secondary": "Subscription status"
-}
-
-Here is the JSON for GPT 4
 {
 "account": "sarah.thompson@madeBy.AI",
-"id": "12345678",
+"id": "34567890",
 "primary": "Account Management",
-"secondary": "Password reset"
+"secondary": "Password Reset"
 }
 {
-"account": "michael.davis@madeBy.AI",
-"id": "23456789",
+"account": "samantha.carter@madeBy.AI",
+"id": "56789012",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "daniel.martinez@madeBy.AI",
+"id": "78901234",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
+{
+"account": "benjamin.taylor@madeBy.AI",
+"id": "90817263",
+"primary": "Account Management",
+"secondary": "Add or Change Payment Method"
+}
+{
+"account": "samantha.davis@madeBy.AI",
+"id": "17263548",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "john.smith@madeBy.AI",
+"id": "25364798",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "aisha.bello@madeBy.AI",
+"id": "36485970",
 "primary": "General Inquiry",
-"secondary": "Product information"
+"secondary": "Order Status"
 }
 {
-"account": "emma.wilson@madeBy.AI",
+"account": "karen.johnson@madeBy.AI",
+"id": "48597012",
+"primary": "General Inquiry",
+"secondary": "Order Status"
+}
+{
+"account": "li.wei@madeBy.AI",
+"id": "59608123",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
+{
+"account": "emily.davis@example.com",
+"id": "60719234",
+"primary": "General Inquiry",
+"secondary": "Speak to a Human"
+}
+
+Here is the data for GPT 4
+{
+"account": "john.doe@madeBy.AI",
+"id": "12345678",
+"primary": "Billing",
+"secondary": "Cancel Subscription"
+},
+{
+"account": "jane.smith@madeBy.AI",
+"id": "23456789",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+},
+{
+"account": "michael.johnson@madeBy.AI",
 "id": "34567890",
 "primary": "Billing",
-"secondary": "Unsubscribe or upgrade"
-}
+"secondary": "Explanation for Charge"
+},
 {
-"account": "laura.roberts@madeBy.AI",
+"account": "emily.brown@madeBy.AI",
 "id": "45678901",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
+},
 {
-"account": "mark.anderson@madeBy.AI",
+"account": "david.wilson@madeBy.AI",
 "id": "56789012",
 "primary": "Technical Support",
-"secondary": "Device compatibility"
-}
+"secondary": "General Troubleshooting"
+},
 {
-"account": "sophia.ramirez@madeBy.AI",
+"account": "sarah.thompson@madeBy.AI",
 "id": "67890123",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "ethan.collins@madeBy.AI",
-"id": "78901234",
 "primary": "Account Management",
-"secondary": "Account security"
-}
+"secondary": "Password Reset"
+},
 {
-"account": "olivia.smith@madeBy.AI",
+"account": "samantha.carter@madeBy.AI",
+"id": "78901234",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+},
+{
+"account": "daniel.martinez@madeBy.AI",
 "id": "89012345",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "nathan.turner@madeBy.AI",
-"id": "90123456",
 "primary": "Technical Support",
-"secondary": "Device compatibility"
-}
+"secondary": "General Troubleshooting"
+},
 {
-"account": "chloe.adams@madeBy.AI",
+"account": "benjamin.taylor@madeBy.AI",
+"id": "90123456",
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
+},
+{
+"account": "samantha.davis@madeBy.AI",
 "id": "01234567",
-"primary": "Account Management",
-"secondary": "Update personal information"
-}
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+},
 {
-"account": "daniel.miller@madeBy.AI",
+"account": "john.smith@madeBy.AI",
+"id": "10234567",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+},
+{
+"account": "aisha.bello@madeBy.AI",
 "id": "11234567",
+"primary": "General Inquiry",
+"secondary": "Order Status"
+},
+{
+"account": "karen.johnson@madeBy.AI",
+"id": "12234567",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+},
+{
+"account": "li.wei@madeBy.AI",
+"id": "13234567",
 "primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
+"secondary": "General Troubleshooting"
+},
 {
-"account": "sophia.lee@madeBy.AI",
-"id": "22345678",
+"account": "emily.davis@example.com",
+"id": "14234567",
 "primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "benjamin.wright@madeBy.AI",
-"id": "33456789",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "ava.green@madeBy.AI",
-"id": "44567890",
-"primary": "Technical Support",
-"secondary": "Device compatibility"
-}
-{
-"account": "henry.davis@madeBy.AI",
-"id": "55678901",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "lily.thompson@madeBy.AI",
-"id": "66789012",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "carter.adams@madeBy.AI",
-"id": "77890123",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "emily.white@madeBy.AI",
-"id": "88901234",
-"primary": "Account Management",
-"secondary": "Update personal information"
+"secondary": "Speak to a Human"
 }
 
-
-Here is the JSON for Claude-Instant
+Here is the data for Claude-Instant
+{
+"account": "john.doe@madeBy.AI",
+"id": "34567321",
+"primary": "Billing",
+"secondary": "Cancel Subscription"
+}
+{
+"account": "jane.smith@madeBy.AI",
+"id": "75567718",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "michael.johnson@madeBy.AI",
+"id": "91953189",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "emily.brown@madeBy.AI",
+"id": "48888889",
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
+}
+{
+"account": "david.wilson@madeBy.AI",
+"id": "23324001",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
 {
 "account": "sarah.thompson@madeBy.AI",
-"id": "11775784",
+"id": "82928377",
 "primary": "Account Management",
-"secondary": "Password reset"
+"secondary": "Password Reset"
 }
 {
-"account": "michael.davis@madeBy.AI",
-"id": "05543762",
-"primary": "General Inquiry",
-"secondary":"Product information"
-}
-{
-"account": "emma.wilson@madeBy.AI",
-"id": "86321214",
+"account": "samantha.carter@madeBy.AI",
+"id": "45691354",
 "primary": "Billing",
-"secondary": "Explanation for charge"
+"secondary": "Explanation for Charge"
 }
 {
-"account": "laura.roberts@madeBy.AI",
-"id": "61898838",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "mark.anderson@madeBy.AI",
-"id": "63011715",
+"account": "daniel.martinez@madeBy.AI",
+"id": "49508683",
 "primary": "Technical Support",
-"secondary": "General troubleshooting"
+"secondary": "General Troubleshooting"
 }
 {
-"account": "sophia.ramirez@madeBy.AI",
-"id": "03177198",
-"primary": "Billing",
-"secondary": "Add a payment method"
-}
-{
-"account": "ethan.collins@madeBy.AI",
-"id": "70357382",
+"account": "benjamin.taylor@madeBy.AI",
+"id": "28617581",
 "primary": "Account Management",
-"secondary": "Account security"
+"secondary": "Add or Change Payment Method"
 }
 {
-"account": "olivia.smith@madeBy.AI",
-"id": "14828591",
+"account": "samantha.davis@madeBy.AI",
+"id": "88277749",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "john.smith@madeBy.AI",
+"id": "72077321",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "aisha.bello@madeBy.AI",
+"id": "58074754",
 "primary": "General Inquiry",
-"secondary": "Pricing"
+"secondary": "Order Status"
 }
 {
-"account": "nathan.turner@madeBy.AI",
-"id": "73351807",
+"account": "karen.johnson@madeBy.AI",
+"id": "61383027",
+"primary": "General Inquiry",
+"secondary": "Speak to a Human"
+}
+{
+"account": "li.wei@madeBy.AI",
+"id": "59927558",
 "primary": "Technical Support",
-"secondary": "Device compatibility"
+"secondary": "General Troubleshooting"
 }
 {
-"account": "chloe.adams@madeBy.AI",
-"id": "56048282",
+"account": "emily.davis@example.com",
+"id": "16391315",
 "primary": "General Inquiry",
-"secondary":"Product information"
-}
-{
-"account": "daniel.miller@madeBy.AI",
-"id": "30572307",
-"primary": "Billing",
-"secondary": "Dispute a charge"
-}
-{
-"account": "sophia.lee@madeBy.AI",
-"id": "45950620",
-"primary": "Billing",
-"secondary": "Unsubscribe or upgrade"
-}
-{
-"account": "benjamin.wright@madeBy.AI",
-"id": "70952218",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "ava.green@madeBy.AI",
-"id": "11435407",
-"primary": "Technical Support",
-"secondary": "Device compatibility"
-}
-{
-"account": "henry.davis@madeBy.AI",
-"id": "34934079",
-"primary": "Billing",
-"secondary":"Unsubscribe or upgrade"
-}
-{
-"account": "lily.thompson@madeBy.AI",
-"id": "40454999",
-"primary": "General Inquiry",
-"secondary": "Pricing"
-}
-{
-"account": "carter.adams@madeBy.AI",
-"id": "99108335",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "emily.white@madeBy.AI",
-"id": "10656859",
-"primary": "Billing",
-"secondary": "Dispute a charge"
+"secondary": "General Inquiry"
 }
 
-
-Here is the JSON for Claude-Instant 100k
+Here is the data for Claude-instant-100k
 {
-"account":"sarah.thompson@madeBy.AI",
-"id": "87951659",
+"john.doe@madeBy.AI": "33555668",
+"primary": "Billing",
+"secondary": "Cancel Subscription"
+}
+{
+"jane.smith@madeBy.AI": "33555664",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"michael.johnson@madeBy.AI": "33555667",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"emily.brown@madeBy.AI": "33555666",
+"primary": "Billing",
+"secondary":"Add or Change Payment Method"
+}
+{
+"david.wilson@madeBy.AI": "33555660",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
+{
+"sarah.thompson@madeBy.AI": "33555665",
 "primary": "Account Management",
-"secondary": "Password reset"
+"secondary": "Password Reset"
 }
 {
-"account": "michael.davis@madeBy.AI",
-"id": "41985537",
-"primary": "General Inquiry",
-"secondary": "Pricing"
-}
-{
-"account": "emma.wilson@madeBy.AI",
-"id": "24615873",
+"samantha.carter@madeBy.AI": "33555669",
 "primary":"Billing",
-"secondary":"Dispute a charge"
+"secondary": "Explanation for Charge"
 }
 {
-"account":"laura.roberts@madeBy.AI",
-"id": "71548392",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "mark.anderson@madeBy.AI",
-"id":"74985213",
+"daniel.martinez@madeBy.AI": "33555661",
 "primary":"Technical Support",
-"secondary":"General troubleshooting"
+"secondary":"Device Compatibility"
 }
 {
-"account": "sophia.ramirez@madeBy.AI",
-"id": "83267191",
-"primary": "Billing",
-"secondary": "Explanation for charge"
+"benjamin.taylor@madeBy.AI": "33555662",
+"primary":"Billing",
+"secondary":"Add or Change Payment Method"
 }
 {
-"account": "ethan.collins@madeBy.AI",
-"id": "91637548",
-"primary": "Account Management",
-"secondary": "Account security"
+"samantha.davis@madeBy.AI": "33555663",
+"primary":"Billing",
+"secondary":"Explanation for Charge"
 }
 {
-"account": "olivia.smith@madeBy.AI",
-"id": "22369857",
-"primary": "General Inquiry",
-"secondary": "Product information"
+"john.smith@madeBy.AI": "33555659",
+"primary":"Billing",
+"secondary": "Refund or Replacement"
 }
 {
-"account": "nathan.turner@madeBy.AI",
-"id": "66641298",
-"primary": "Technical Support",
-"secondary": "Device compatibility"
-}
-{
-"account": "chloe.adams@madeBy.AI",
-"id": "58996372",
-"primary": "Account Management",
-"secondary": "Update personal information"
-}
-{
-"account": "daniel.miller@madeBy.AI",
-"id": "45749231",
-"primary":"Technical Support",
-"secondary":"Software updates"
-}
-{
-"account": "sophia.lee@madeBy.AI",
-"id": "21483339",
-"primary": "General Inquiry",
-"secondary": "Speak to a human"
-}
-{
-"account": "benjamin.wright@madeBy.AI",
-"id": "22398136",
-"primary": "General Inquiry",
-"secondary": "Feedback"
-}
-{
-"account": "ava.green@madeBy.AI",
-"id": "71319581",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "henry.davis@madeBy.AI",
-"id": "63397812",
-"primary": "Billing",
-"secondary":"Dispute a charge"
-}
-{
-"account": "lily.thompson@madeBy.AI",
-"id": "79213634",
+"aisha.bello@madeBy.AI": "33555658",
 "primary":"General Inquiry",
-"secondary":"Product information"
+"secondary":"Order Status"
 }
 {
-"account": "carter.adams@madeBy.AI",
-"id": "41318762",
+"karen.johnson@madeBy.AI": "33555657",
+"primary":"General Inquiry",
+"secondary":"Speak to a Human"
+}
+{
+"li.wei@madeBy.AI": "33555656",
 "primary":"Technical Support",
-"secondary":"General troubleshooting"
+"secondary":"General Troubleshooting"
 }
 {
-"account": "emily.white@madeBy.AI",
-"id": "72638549",
-"primary": "Billing",
-"secondary": "Unsubscribe or upgrade"
+"emily.davis@example.com": "91679163",
+"primary": "General Inquiry",
+"secondary": "Product Information"
 }
 
-
-Here is the JSON for Claud 2-100k
+Here is the data for Claude-2-100k
+{
+"account": "john.doe@madeBy.AI",
+"id": "54546785",
+"primary": "Billing",
+"secondary": "Cancel Subscription"
+}
+{
+"account": "jane.smith@madeBy.AI",
+"id": "12092763",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "michael.johnson@madeBy.AI",
+"id": "79045236",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "emily.brown@madeBy.AI",
+"id": "64218905",
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
+}
+{
+"account": "david.wilson@madeBy.AI",
+"id": "83564902",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
 {
 "account": "sarah.thompson@madeBy.AI",
-"id": "87654321",
-"primary": "Account Management", 
-"secondary": "Password reset"
+"id": "92741653",
+"primary": "Account Management",
+"secondary": "Password Reset"
 }
 {
-"account": "michael.davis@madeBy.AI", 
-"id": "76549230",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "emma.wilson@madeBy.AI",
-"id": "32198765",
+"account": "samantha.carter@madeBy.AI",
+"id": "10385276",
 "primary": "Billing",
-"secondary": "Dispute a charge" 
+"secondary": "Explanation for Charge"
 }
 {
-"account": "laura.roberts@madeBy.AI",
-"id": "54392017",
-"primary": "Technical Support", 
-"secondary": "General troubleshooting"
-}
-{
-"account": "mark.anderson@madeBy.AI",
-"id": "76512349",
+"account": "daniel.martinez@madeBy.AI",
+"id": "56418927",
 "primary": "Technical Support",
-"secondary": "Device compatibility"
+"secondary": "General Troubleshooting"
 }
 {
-"account": "sophia.ramirez@madeBy.AI", 
-"id": "43218765",
+"account": "benjamin.taylor@madeBy.AI",
+"id": "72349106",
 "primary": "Account Management",
-"secondary": "Update personal information"
+"secondary": "Add or Change Payment Method"
 }
 {
-"account": "ethan.collins@madeBy.AI",
-"id": "98765432",
-"primary": "Account Management",
-"secondary": "Account security"
-}
-{  
-"account": "olivia.smith@madeBy.AI",
-"id": "76543219", 
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
+"account": "samantha.davis@madeBy.AI",
+"id": "84601735",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
 }
 {
-"account": "nathan.turner@madeBy.AI",
-"id": "87651234",
-"primary": "Technical Support",
-"secondary": "Device compatibility"
+"account": "john.smith@madeBy.AI",
+"id": "63549218",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
 }
 {
-"account": "chloe.adams@madeBy.AI",
-"id": "43215678",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "daniel.miller@madeBy.AI",
-"id": "87654321",
-"primary": "Technical Support",
-"secondary": "Device compatibility"
-}
-{
-"account": "sophia.lee@madeBy.AI",
-"id": "76543219",
-"primary": "Account Management", 
-"secondary": "Update personal information"
-}
-{
-"account": "benjamin.wright@madeBy.AI",
-"id": "43215678",
+"account": "aisha.bello@madeBy.AI",
+"id": "41527836",
 "primary": "General Inquiry",
-"secondary": "Speak to a human"
+"secondary": "Order Status"
 }
 {
-"account": "ava.green@madeBy.AI",
-"id": "87651234", 
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{  
-"account": "henry.davis@madeBy.AI",
-"id": "76543219",
-"primary": "Account Management",
-"secondary": "Update personal information"
-}
-{
-"account": "lily.thompson@madeBy.AI",
-"id": "43215678",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "carter.adams@madeBy.AI",
-"id": "87651234",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "emily.white@madeBy.AI",
-"id": "76543219",
+"account": "karen.johnson@madeBy.AI",
+"id": "83745692",
 "primary": "Billing",
-"secondary": "Account Management"
+"secondary": "Refund or Replacement"
+}
+{
+"account": "li.wei@madeBy.AI",
+"id": "29631748",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
+{
+"account": "emily.davis@example.com",
+"id": "56432197",
+"primary": "General Inquiry",
+"secondary": "Speak to a Human"
 }
 ```
 
 ### Response
-`Sure! Here is the formatted markdown table with the JSON data you provided:`
+`Here is the formatted markdown code with the JSON data converted into a markdown spreadsheet:`
 ```markdown
-|GPT 3.5| GPT 4|Claude-Instant|Claude-Instant 100k|Claude 2-100k|
-|-----------|-------------|----------------|---------------------------|-------------------|
-|"account": "sarah.thompson@madeBy.AI"<br>"id": "98765432"<br>"primary": "Technical Support"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeByAI.com"<br>"id": "12345678"<br>"primary": "AccountManagement"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "11775784"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "87951659"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Password reset"|
-|"account": "michael.davis@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Order status"|"account": "michael.davis@madeBy.AI"<br>"id": "23456789"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|""account": "michael.davis@madeBy.AI"<br>"id": "05543762"<br>"primary": "General Inquiry"<br>"secondary":"Product information"|"account": "michael.davis@madeBy.AI"<br>"id": "41985537"<br>"primary": "General Inquiry"<br>"secondary": "Pricing"|"account": "michael.davis@madeBy.AI"<br>"id": "76549230"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
+| GPT 3.5 | GPT 4 | Claude-Instant | Claude-Instant-100k | Claude-2-100k |
+|---------|-------|----------------|---------------------|---------------|
+| account: john.doe@madeBy.AI<br>id: 98765432<br>primary: Billing<br>secondary: Cancel Subscription | account: john.doe@madeBy.AI<br>id: 12345678<br>primary: Billing<br>secondary: Cancel Subscription | account: john.doe@madeBy.AI<br>id: 34567321<br>primary: Billing<br>secondary: Cancel Subscription | john.doe@madeBy.AI: 33555668<br>primary: Billing<br>secondary: Cancel Subscription | account: john.doe@madeBy.AI<br>id: 54546785<br>primary: Billing<br>secondary: Cancel Subscription |
+| account: jane.smith@madeBy.AI<br>id: 12345678<br>primary: Billing<br>secondary: Refund or Replacement | account: jane.smith@madeBy.AI<br>id: 23456789<br>primary: Billing<br>secondary: Refund or Replacement | account: jane.smith@madeBy.AI<br>id: 75567718<br>primary: Billing<br>secondary: Refund or Replacement | jane.smith@madeBy.AI: 33555664<br>primary: Billing<br>secondary: Refund or Replacement | account: jane.smith@madeBy.AI<br>id: 12092763<br>primary: Billing<br>secondary: Refund or Replacement |
+| account: michael.johnson@madeBy.AI<br>id: 87654321<br>primary: Billing<br>secondary: Explanation for Charge | account: michael.johnson@madeBy.AI<br>id: 34567890<br>primary: Billing<br>secondary: Explanation for Charge | account: michael.johnson@madeBy.AI<br>id: 91953189<br>primary: Billing<br>secondary: Explanation for Charge | michael.johnson@madeBy.AI: 33555667<br>primary: Billing<br>secondary: Explanation for Charge | account: michael.johnson@madeBy.AI<br>id: 79045236<br>primary: Billing<br>secondary: Explanation for Charge |
+| account: emily.brown@madeBy.AI<br>id: 45678901<br>primary: Billing<br>secondary: Add or Change Payment Method | account: emily.brown@madeBy.AI<br>id: 45678901<br>primary: Billing<br>secondary: Add or Change Payment Method | account: emily.brown@madeBy.AI<br>id: 48888889<br>primary: Billing<br>secondary: Add or Change Payment Method | emily.brown@madeBy.AI: 33555666<br>primary: Billing<br>secondary: Add or Change Payment Method | account: emily.brown@madeBy.AI<br>id: 64218905<br>primary: Billing<br>secondary: Add or Change Payment Method |
+| account: david.wilson@madeBy.AI<br>id: 23456789<br>primary: Technical Support<br>secondary: General Troubleshooting | account: david.wilson@madeBy.AI<br>id: 56789012<br>primary: Technical Support<br>secondary: General Troubleshooting | account: david.wilson@madeBy.AI<br>id: 23324001<br>primary: Technical Support<br>secondary: General Troubleshooting | david.wilson@madeBy.AI: 33555660<br>primary: Technical Support<br>secondary: General Troubleshooting | account: david.wilson@madeBy.AI<br>id: 83564902<br>primary: Technical Support<br>secondary: General Troubleshooting |
+| account: sarah.thompson@madeBy.AI<br>id: 34567890<br>primary: Account Management<br>secondary: Password Reset | account: sarah.thompson@madeBy.AI<br>id: 67890123<br>primary: Account Management<br>secondary: Password Reset | account: sarah.thompson@madeBy.AI<br>id: 82928377<br>primary: Account Management<br>secondary: Password Reset | sarah.thompson@madeBy.AI: 33555665<br>primary: Account Management<br>secondary: Password Reset | account: sarah.thompson@madeBy.AI<br>id: 92741653<br>primary: Account Management<br>secondary: Password Reset |
+| account: samantha.carter@madeBy.AI<br>id: 56789012<br>primary: Billing<br>secondary: Explanation for Charge | account: samantha.carter@madeBy.AI<br>id: 78901234<br>primary: Billing<br>secondary: Explanation for Charge | account: samantha.carter@madeBy.AI<br>id: 45691354<br>primary: Billing<br>secondary: Explanation for Charge | samantha.carter@madeBy.AI: 33555669<br>primary: Billing<br>secondary: Explanation for Charge | account: samantha.carter@madeBy.AI<br>id: 10385276<br>primary: Billing<br>secondary: Explanation for Charge |
+| account: daniel.martinez@madeBy.AI<br>id: 78901234<br>primary: Technical Support<br>secondary: General Troubleshooting | account: daniel.martinez@madeBy.AI<br>id: 89012345<br>primary: Technical Support<br>secondary: General Troubleshooting | account: daniel.martinez@madeBy.AI<br>id: 49508683<br>primary: Technical Support<br>secondary: General Troubleshooting | daniel.martinez@madeBy.AI: 33555661<br>primary: Technical Support<br>secondary: General Troubleshooting | account: daniel.martinez@madeBy.AI<br>id: 56418927<br>primary: Technical Support<br>secondary: General Troubleshooting |
+| account: benjamin.taylor@madeBy.AI<br>id: 90817263<br>primary: Account Management<br>secondary: Add or Change Payment Method | account: benjamin.taylor@madeBy.AI<br>id: 90123456<br>primary: Billing<br>secondary: Add or Change Payment Method | account: benjamin.taylor@madeBy.AI<br>id: 28617581<br>primary: Account Management<br>secondary: Add or Change Payment Method | benjamin.taylor@madeBy.AI: 33555662<br>primary: Billing<br>secondary: Add or Change Payment Method | account: benjamin.taylor@madeBy.AI<br>id: 72349106<br>primary: Account Management<br>secondary: Add or Change Payment Method |
+| account: samantha.davis@madeBy.AI<br>id: 17263548<br>primary: Billing<br>secondary: Explanation for Charge | account: samantha.davis@madeBy.AI<br>id: 25364798<br>primary: Billing<br>secondary: Refund or Replacement | account: samantha.davis@madeBy.AI<br>id: 88277749<br>primary: Billing<br>secondary: Explanation for Charge | samantha.davis@madeBy.AI: 33555663<br>primary: Billing<br>secondary: Explanation for Charge | account: samantha.davis@madeBy.AI<br>id: 84601735<br>primary: Billing<br>secondary: Explanation for Charge |
+| account: john.smith@madeBy.AI<br>id: 25364798<br>primary: Billing<br>secondary: Refund or Replacement | account: john.smith@madeBy.AI<br>id: 10234567<br>primary: Billing<br>secondary: Refund or Replacement | account: john.smith@madeBy.AI<br>id: 72077321<br>primary: Billing<br>secondary: Refund or Replacement | john.smith@madeBy.AI: 33555659<br>primary: Billing<br>secondary: Refund or Replacement | account: john.smith@madeBy.AI<br>id: 63549218<br>primary: Billing<br>secondary: Refund or Replacement |
+| account: aisha.bello@madeBy.AI<br>id: 36485970<br>primary: General Inquiry<br>secondary: Order Status | account: aisha.bello@madeBy.AI<br>id: 11234567<br>primary: General Inquiry<br>secondary: Order Status | account: aisha.bello@madeBy.AI<br>id: 58074754<br>primary: General Inquiry<br>secondary: Order Status | aisha.bello@madeBy.AI: 33555658<br>primary: General Inquiry<br>secondary: Order Status | account: aisha.bello@madeBy.AI<br>id: 41527836<br>primary: General Inquiry<br>secondary: Order Status |
+| account: karen.johnson@madeBy.AI<br>id: 48597012<br>primary: General Inquiry<br>secondary: Order Status | account: karen.johnson@madeBy.AI<br>id: 12234567<br>primary: Billing<br>secondary: Refund or Replacement | account: karen.johnson@madeBy.AI<br>id: 61383027<br>primary: General Inquiry<br>secondary: Speak to a Human | karen.johnson@madeBy.AI: 33555657<br>primary: General Inquiry<br>secondary: Speak to a Human | account: karen.johnson@madeBy.AI<br>id: 83745692<br>primary: Billing<br>secondary: Refund or Replacement |
+| account: li.wei@madeBy.AI<br>id: 59608123<br>primary: Technical Support<br>secondary: General Troubleshooting | account: li.wei@madeBy.AI<br>id: 13234567<br>primary: Technical Support<br>secondary: General Troubleshooting | account: li.wei@madeBy.AI<br>id: 59927558<br>primary: Technical Support<br>secondary: General Troubleshooting | li.wei@madeBy.AI: 33555656<br>primary: Technical Support<br>secondary: General Troubleshooting | account: li.wei@madeBy.AI<br>id: 29631748<br>primary: Technical Support<br>secondary: General Troubleshooting |
+| account: emily.davis@example.com<br>id: 60719234<br>primary: General Inquiry<br>secondary: Speak to a Human | account: emily.davis@example.com<br>id: 14234567<br>primary: General Inquiry<br>secondary: Speak to a Human | account: emily.davis@example.com<br>id: 16391315<br>primary: General Inquiry<br>secondary: General Inquiry | emily.davis@example.com: 91679163<br>primary: General Inquiry<br>secondary: Product Information | emily.davis@example.com: 56432197<br>primary: General Inquiry<br>secondary: Speak to a Human |
 ```
-`Please note that I have only included the first two rows for brevity. You can extend the table by adding more rows using the same format.`
-
-## Prompt
-```
-please add all the rows using the JSON information for each column that i provided
-```
-
-## Response
-`Certainly! Here is the complete markdown table with all the rows:`
-
-```markdown
-|GPT 3.5| GPT 4|Claude-Instant|Claude-Instant 100k|Claude 2-100k|
-|-----------|-------------|----------------|---------------------------|-------------------|
-|"account": "sarah.thompson@madeBy.AI"<br>"id": "98765432"<br>"primary": "Technical Support"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "11775784"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "87951659"<br>"primary": "Account Management"<br>"secondary": "Password reset"|"account": "sarah.thompson@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Password reset"|
-|"account": "michael.davis@madeBy.AI"<br>"id": "12345678"<br>"primary": "Account Management"<br>"secondary": "Order status"|"account": "michael.davis@madeBy.AI"<br>"id": "23456789"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|""account": "michael.davis@madeBy.AI"<br>"id": "05543762"<br>"primary": "General Inquiry"<br>"secondary":"Product information"|"account": "michael.davis@madeBy.AI"<br>"id": "41985537"<br>"primary": "General Inquiry"<br>"secondary": "Pricing"|"account": "michael.davis@madeBy.AI"<br>"id": "76549230"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "emma.wilson@madeBy.AI"<br>"id": "23456789"<br>"primary": "Billing"<br>"secondary": "Refund and cancellation"|"account": "emma.wilson@madeBy.AI"<br>"id": "34567890"<br>"primary": "Billing"<br>"secondary": "Unsubscribe or upgrade"|"account": "emma.wilson@madeBy.AI"<br>"id": "86321214"<br>"primary": "Billing"<br>"secondary": "Explanation for charge"|"account": "emma.wilson@madeBy.AI"<br>"id": "24615873"<br>"primary": "Billing"<br>"secondary": "Dispute a charge"|"account": "emma.wilson@madeBy.AI"<br>"id": "32198765"<br>"primary":"Billing"<br>"secondary":"Dispute a charge"|
-|"account": "laura.roberts@madeBy.AI"<br>"id": "34567890"<br>"primary": "Account Management"<br>"secondary": "Order confirmation"|"account": "laura.roberts@madeBy.AI"<br>"id": "45678901"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "laura.roberts@madeBy.AI"<br>"id": "61898838"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account":"laura.roberts@madeBy.AI"<br>"id": "71548392"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "laura.roberts@madeBy.AI"<br>"id": "54392017"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "mark.anderson@madeBy.AI"<br>"id": "45678901"<br>"primary": "Technical Support"<br>"secondary": "Device synchronization"|"account": "mark.anderson@madeBy.AI"<br>"id": "56789012"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|"account": "mark.anderson@madeBy.AI"<br>"id": "63011715"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|"account": "mark.anderson@madeBy.AI"<br>"id":"74985213"<br>"primary":"Technical Support"<br>"secondary":"General troubleshooting"|"account": "mark.anderson@madeBy.AI"<br>"id": "76512349"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|
-|"account": "sophia.ramirez@madeBy.AI"<br>"id": "56789012"<br>"primary": "Billing"<br>"secondary": "Return and exchange"|"account": "sophia.ramirez@madeBy.AI"<br>"id": "67890123"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "sophia.ramirez@madeBy.AI"<br>"id": "03177198"<br>"primary": "Billing"<br>"secondary": "Add a payment method"|"account": "sophia.ramirez@madeBy.AI"<br>"id": "83267191"<br>"primary": "Billing"<br>"secondary": "Explanation for charge"|"account": "sophia.ramirez@madeBy.AI"<br>"id": "43218765"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|
-|"account": "ethan.collins@madeBy.AI"<br>"id": "67890123"<br>"primary": "Account Management"<br>"secondary": "Account suspension"|"account": "ethan.collins@madeBy.AI"<br>"id": "78901234"<br>"primary": "Account Management"<br>"secondary": "Account security"|"account": "ethan.collins@madeBy.AI"<br>"id": "70357382"<br>"primary": "Account Management"<br>"secondary": "Account security"|"account": "ethan.collins@madeBy.AI"<br>"id": "91637548"<br>"primary": "Account Management"<br>"secondary": "Account security"|"account": "ethan.collins@madeBy.AI"<br>"id": "98765432"<br>"primary": "Account Management"<br>"secondary": "Account security"|
-|"account": "olivia.smith@madeBy.AI"<br>"id": "78901234"<br>"primary": "Account Management"<br>"secondary": "Order status"|"account": "olivia.smith@madeBy.AI"<br>"id": "89012345"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "olivia.smith@madeBy.AI"<br>"id": "14828591"<br>"primary": "General Inquiry"<br>"secondary": "Pricing"|"account": "olivia.smith@madeBy.AI"<br>"id": "22369857"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "olivia.smith@madeBy.AI"<br>"id": "76543219"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "nathan.turner@madeBy.AI"<br>"id": "89012345"<br>"primary": "Technical Support"<br>"secondary": "Device troubleshooting"|"account": "nathan.turner@madeBy.AI"<br>"id": "90123456"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|"account": "nathan.turner@madeBy.AI"<br>"id": "73351807"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|"account": "nathan.turner@madeBy.AI"<br>"id": "66641298"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|"account": "nathan.turner@madeBy.AI"<br>"id": "87651234"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|
-|"account": "chloe.adams@madeBy.AI"<br>"id": "90123456"<br>"primary": "Account Management"<br>"secondary": "Email subscription"|"account": "chloe.adams@madeBy.AI"<br>"id": "01234567"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|"account": "chloe.adams@madeBy.AI"<br>"id": "56048282"<br>"primary": "General Inquiry"<br>"secondary":"Product information"|"account": "chloe.adams@madeBy.AI"<br>"id": "58996372"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|"account": "chloe.adams@madeBy.AI"<br>"id": "43215678"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "daniel.miller@madeBy.AI"<br>"id": "65432109"<br>"primary": "Account Management"<br>"secondary": "Warranty repair/replacement"|"account": "daniel.miller@madeBy.AI"<br>"id": "11234567"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|"account": "daniel.miller@madeBy.AI"<br>"id": "30572307"<br>"primary": "Billing"<br>"secondary": "Dispute a charge"|"account": "daniel.miller@madeBy.AI"<br>"id": "45749231"<br>"primary":"Technical Support"<br>"secondary":"Software updates"|"account": "daniel.miller@madeBy.AI"<br>"id": "87654321"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|
-|"account": "sophia.lee@madeBy.AI"<br>"id": "76543210"<br>"primary": "Billing"<br>"secondary": "Return or refund"|"account": "sophia.lee@madeBy.AI"<br>"id": "22345678"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "sophia.lee@madeBy.AI"<br>"id": "45950620"<br>"primary": "Billing"<br>"secondary": "Unsubscribe or upgrade"|"account": "sophia.lee@madeBy.AI"<br>"id": "21483339"<br>"primary": "General Inquiry"<br>"secondary": "Speak to a human"|"account": "sophia.lee@madeBy.AI"<br>"id": "76543219"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|
-|"account": "benjamin.wright@madeBy.AI"<br>"id": "87654321"<br>"primary": "Account Management"<br>"secondary": "Application status"|"account": "benjamin.wright@madeBy.AI"<br>"id": "33456789"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "benjamin.wright@madeBy.AI"<br>"id": "70952218"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "benjamin.wright@madeBy.AI"<br>"id": "22398136"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "benjamin.wright@madeBy.AI"<br>"id": "43215678"<br>"primary": "General Inquiry"<br>"secondary": "Speak to a human"|
-|"account": "ava.green@madeBy.AI"<br>"id": "98765432"<br>"primary": "Technical Support"<br>"secondary": "Device troubleshooting"|"account": "ava.green@madeBy.AI"<br>"id": "44567890"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|"account": "ava.green@madeBy.AI"<br>"id": "11435407"<br>"primary": "Technical Support"<br>"secondary": "Device compatibility"|"account": "ava.green@madeBy.AI"<br>"id": "71319581"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|"account": "ava.green@madeBy.AI"<br>"id": "87651234"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "henry.davis@madeBy.AI"<br>"id": "09876543"<br>"primary": "Billing"<br>"secondary": "Return and refund"|"account": "henry.davis@madeBy.AI"<br>"id": "55678901"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "henry.davis@madeBy.AI"<br>"id": "34934079"<br>"primary": "Billing"<br>"secondary":"Unsubscribe or upgrade"|"account": "henry.davis@madeBy.AI"<br>"id": "63397812"<br>"primary": "Billing"<br>"secondary":"Dispute a charge"|"account": "henry.davis@madeBy.AI"<br>"id": "76543219"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|
-|"account": "lily.thompson@madeBy.AI"<br>"id": "21098765"<br>"primary": "Account Management"<br>"secondary": "Reservation confirmation"|"account": "lily.thompson@madeBy.AI"<br>"id": "66789012"<br>"primary": "General Inquiry"<br>"secondary": "Product information"|"account": "lily.thompson@madeBy.AI"<br>"id": "40454999"<br>"primary":"General Inquiry"<br>"secondary":"Pricing"|"account": "lily.thompson@madeBy.AI"<br>"id": "79213634"<br>"primary":"General Inquiry"<br>"secondary":"Product information"|"account": "lily.thompson@madeBy.AI"<br>"id": "43215678"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "carter.adams@madeBy.AI"<br>"id": "32109876"<br>"primary": "Technical Support"<br>"secondary": "System installation"|"account": "carter.adams@madeBy.AI"<br>"id": "77890123"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|"account": "carter.adams@madeBy.AI"<br>"id": "99108335"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|"account": "carter.adams@madeBy.AI"<br>"id": "41318762"<br>"primary":"Technical Support"<br>"secondary":"General troubleshooting"|"account": "carter.adams@madeBy.AI"<br>"id": "87651234"<br>"primary": "Technical Support"<br>"secondary": "General troubleshooting"|
-|"account": "emily.white@madeBy.AI"<br>"id": "43210987"<br>"primary": "Account Management"<br>"secondary": "Subscription status"|"account": "emily.white@madeBy.AI"<br>"id": "88901234"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|"account": "emily.white@madeBy.AI"<br>"id": "10656859"<br>"primary": "Billing"<br>"secondary": "Dispute a charge"|"account": "emily.white@madeBy.AI"<br>"id": "72638549"<br>"primary": "Billing"<br>"secondary": "Unsubscribe or upgrade"|"account": "emily.white@madeBy.AI"<br>"id": "76543219"<br>"primary": "Account Management"<br>"secondary": "Update personal information"|
-```
-`Please note that the table above contains only the provided JSON information. If you have additional JSON data or if there are any modifications required, please let me know.`
-
+`Please copy the above markdown code and paste it into a .md file or any markdown editor to see the formatted spreadsheet.`
