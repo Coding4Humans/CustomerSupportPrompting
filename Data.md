@@ -579,5 +579,9 @@ Here are the outputs for all the customer service queries:
 
 
 ## Comparison
-GPT 3.5, Claude-instant, Claude-instant-100k, and Claude-2-100k all generated their responses in JSON with no aditional formatting, althought Claude-instant-100k and Claude-2-100k did add "assistant' style comments to the beginning of their reply. This could be remedied with more explicite instructions or access to the API. 
+GPT 3.5, Claude-instant,and Claude-2-100k all generated their responses in JSON with no aditional formatting.
+Claude-instant-100k and Claude-2-100k did add "assistant' style comments to the beginning of their reply. 
+Claude-instant-100k had a weird mis-formatting issue that was resolved by pasting the data again.
+GPT 4 formatted everything in explicite JSON formatting and this may be fine if used from the API but to copy/paste from the web app took an extra minute to correct.
 
+This can all be remedied with more explicite instructions or access to the API. 
