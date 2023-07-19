@@ -13,447 +13,363 @@ Using the template, detailing and understanging the results that were generated 
 ## The Template:
 ```
 You will be provided with customer service queries. 
-The customer service query will be in a spreadsheet format with the headers Customer Name	Customer Email	Customer Request.
+The customer service query will be in a spreadsheet format with the headers
+Customer Name, Customer Email, Customer Request.
 Classify each query into a primary category and a secondary category. 
+
 Provide your output in json format with the keys:
 account(customer's email address), id(generate a random 8 digit ID number) , primary(assign a primary category), and secondary(assign a secondary category).
 
 
-Primary categories: Billing, Technical Support,
-Account Management, or General Inquiry.
+Primary categories:Billing, Technical Support, Account Management, General Inquiry
 
 Billing secondary categories:
-Unsubscribe or upgrade
-Add a payment method
-Explanation for charge
-Dispute a charge
+Cancel Subscription
+Refund or Replacement
+Explanation for Charge
+Add or Change Payment Method
 
 Technical Support secondary categories:
-General troubleshooting
-Device compatibility
-Software updates
+General Troubleshooting
+Device Compatibility
 
 Account Management secondary categories:
-Password reset
-Update personal information
-Close account
-Account security
+Password Reset
+Recover Account
+Close Account
+Account Security
+Email Unsubscribe
 
 General Inquiry secondary categories:
-Product information
-Pricing
+Product Information
 Feedback
-Speak to a human
+Speak to a Human
+Order Status
 
-Here is your first entry
+Here is your first entry to evaluate
 Customer Name	Customer Email	Customer Request
 Sarah Thompson	sarah.thompson@madeBy.AI	Website: FitLifeTracker.com<br>Product: FitLife Pro<br>Description: Hi there, I'm having trouble accessing my FitLife Pro account.
 Every time I try to log in, it says my username or password is incorrect, even though I'm sure I'm entering the correct information.
 Can you please assist me in resetting my account password or resolving any potential login issues? Thank you in advance for your help.
 ```
 ## The Data
-Synthesized data to use in the experiment.
-All names, emails and requests are artificial.
-The first entry, Sarah Thompson, was used in the initial prompt to check the response. Then, all the data was submitting in one big chunk copied from google sheets. No markdown or other syntax was included. The data is displayed as a chart in markdown for readability.
+All names, emails and requests are synthesized with GPT-3.5 to use in the experiment.
+The data was sent to the LLMs without any markdown formatting when submitted to be catagorized. It is in a spreadsheet here for readability.
 
-|Customer Name|Customer Email|Customer Request|
-|-------------|--------------|----------------|
-| Sarah Thompson   | sarah.thompson@madeBy.AI | Website: FitLifeTracker.com<br>Product: FitLife Pro<br>Description: Hi there, I'm having trouble accessing my FitLife Pro account. Every time I try to log in, it says my username or password is incorrect, even though I'm sure I'm entering the correct information. Can you please assist me in resetting my account password or resolving any potential login issues? Thank you in advance for your help.|
-| Michael Davis    | michael.davis@madeBy.AI  | Website: EZShopOnline.com<br>Product: Blue Sneakers<br>Description: Hi, I placed an order for a pair of Blue Sneakers on your website two weeks ago, but I still haven't received them. The tracking information shows that the package has not been delivered yet. Can you please check the status of my order and let me know when I can expect to receive it? Thank you for your assistance.|
-| Emma Wilson      | emma.wilson@madeBy.AI    | Website: FreshBiteMeals.com<br>Product: Vegan Meal Plan<br>Description: Good day, I recently subscribed to your Vegan Meal Plan service, but I'm extremely disappointed with the quality of the meals. The food portions are significantly smaller than advertised, and some of the meals arrived spoiled. This is not the experience I expected from your service. I would like to request a full refund and cancellation of my subscription. I hope you can address this issue promptly. Thank you.|
-| Laura Roberts    | laura.roberts@madeBy.AI  | Website: TravelEase.com<br>Product: Flight from London to Paris<br>Description: Hello, I booked a flight from London to Paris, but I haven't received my e-ticket yet. Could you please assist me in getting my ticket confirmation? Thank you.|
-| Mark Anderson    | mark.anderson@madeBy.AI  | Website: GearTech.com<br>Product: Smartwatch Model SW2000<br>Description: Hi there, my Smartwatch Model SW2000 is not syncing properly with my smartphone. The notifications are not showing up on the watch. Can you please help me resolve this issue? Thank you.|
-| Sophia Ramirez   | sophia.ramirez@madeBy.AI | Website: Fashionista.com<br>Product: Red Dress<br>Description: Hi, I received the Red Dress I ordered, but it doesn't fit me properly. I would like to request an exchange for a different size. How can I proceed with the return and exchange process? Thank you.|
-| Ethan Collins    | ethan.collins@madeBy.AI  | Website: GameNexus.com<br>Product: Online Gaming Subscription<br>Description: Hello, I'm having trouble accessing my online gaming account. It says my account has been suspended. Can you please help me resolve this issue and reinstate my account? Thank you.|
-| Olivia Smith     | olivia.smith@madeBy.AI   | Website: FreshBouquet.com<br>Product: Flower Arrangement<br>Description: Hi, I ordered a flower arrangement for my friend's birthday, but it hasn't been delivered yet. Can you please check the status of the delivery and ensure it arrives on time? Thank you.|
-| Nathan Turner    | nathan.turner@madeBy.AI  | Website: MusicWorld.com<br>Product: Wireless Headphones<br>Description: Hi, I recently purchased Wireless Headphones from your website, but they are not connecting to my devices. Can you provide assistance on how to troubleshoot this issue? Thank you.|
-| Chloe Adams      | chloe.adams@madeBy.AI    | Website: HealthyEats.com<br>Product: Weekly Meal Plan<br>Description: Hello, I subscribed to the Weekly Meal Plan service, but I'm not receiving the recipes via email. Can you please ensure that the recipes are being sent to the correct email address? Thank you.|
-| Daniel Miller    | daniel.miller@madeBy.AI  | Website: TechBazaar.com<br>Product: Laptop Model ABC123<br>Description: Hi, I purchased a Laptop Model ABC123 from your website, and now it's showing some hardware issues. It's still under warranty, so I would like to request a repair or replacement. How can I proceed with this? Thank you.|
-| Sophia Lee       | sophia.lee@madeBy.AI    | Website: Bookworms.com<br>Product: Book: "The Adventure Begins"<br>Description: Hi, I ordered the book "The Adventure Begins" from your website, but I received the wrong book. Can you please assist me in getting the correct book or provide a refund? Thank you.|
-| Benjamin Wright   | benjamin.wright@madeBy.AI | Website: PetPalace.com<br>Product: Cat Adoption<br>Description: Hello, I submitted an application for adopting a cat from your website, but I haven't received any update yet. Can you please provide information on the status of my application? Thank you.|
-| Ava Green        | ava.green@madeBy.AI      | Website: FitTechPro.com<br>Product: Fitness Tracker<br>Description: Hi, my Fitness Tracker is not accurately counting my steps. It seems to be underestimating the steps I take. Can you please help me troubleshoot this issue? Thank you.|
-| Henry Davis      | henry.davis@madeBy.AI    | Website: StyleHub.com<br>Product: Sunglasses<br>Description: Hi, I received the Sunglasses I ordered, but they arrived damaged. I would like to request a return and a refund for this purchase. How can I proceed with this? Thank you.|
-| Lily Thompson    | lily.thompson@madeBy.AI  | Website: TravelBooker.com<br>Product: Hotel Reservation<br>Description: Hello, I made a hotel reservation through your website, but I didn't receive a confirmation email. Can you please ensure that my reservation is confirmed and provide me with the necessary details? Thank you.|
-| Carter Adams     | carter.adams@madeBy.AI   | Website: GizmoGalore.com<br>Product: Smart Home System<br>Description: Hi, I recently purchased a Smart Home System from your website, but I'm having trouble setting it up. Can you please provide guidance on how to install and configure the system? Thank you.|
-| Emily White      | emily.white@madeBy.AI    | Website: SnackBox.com<br>Product: Monthly Snack Box<br>Description: Hi, I've been subscribed to the Monthly Snack Box service, but I haven't received the last two boxes. Can you please check the status of my subscription and ensure that I receive the upcoming box? Thank you.|
+| Customer Name   | Customer Email           | Customer Request                                                                                                                                                                             |
+|-----------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| John Doe        | john.doe@madeBy.AI       | I would like to cancel my subscription as I no longer require the service. Please provide me with instructions on how to proceed.                                                           |
+| Jane Smith      | jane.smith@madeBy.AI     | I recently made a purchase from your website and I received the wrong item. I would like the correct item please. Can you please assist me with this issue?                                |
+| Michael Johnson | michael.johnson@madeBy.AI | I noticed a charge on my credit card statement from your website that I don't recognize. Can you please explain what this charge is for? I need clarification to make sure it's not an unauthorized transaction.                                         |
+| Emily Brown     | emily.brown@madeBy.AI    | The credit card I had on file expired, and I can’t get it to update on the website.                                                                                                          |
+| David Wilson    | david.wilson@madeBy.AI   | Hey, I'm having trouble with my device connecting to your service. It keeps giving me an error message. I have tried troubleshooting on my own, but it's not working. Can you provide me with technical support to resolve this issue?                       |
+| Sarah Thompson  | sarah.thompson@madeBy.AI | Hiiiii, I forgorrrrt my password and I can't log in to my account. Can you pleeeeeease help me reset it? I really need to access my account as soon as possible. Thankssss!                     |
+| Samantha Carter | samantha.carter@madeBy.AI| Hi! Can you help me with something? I don't get why my subscription costs more this month. I always paid the same price before. It's confusing. Can you explain why it changed? Please help me understand. I appreciate it a lot. 😊                          |
+| Daniel Martinez | daniel.martinez@madeBy.AI| Hello! The app keeps crashing when I try to open it on my phone. It's super annoying and I don't know what to do. Can you give me some tech support to fix this? Thank you so much for your help! |
+| Benjamin Taylor | benjamin.taylor@madeBy.AI| Hiiii! 🤗 OMG, I just have to say how much I love your product! It's like the coolest thing ever! 😍💯 I've been using it for a while now and it's seriously changed my life! 🙌🏻 The features are 🔥 and it's so easy to use, even my grandma can do it! 👵🏼💪🏻 Keep up the amazing work, you rock! 🎸✨ BTW, I have a question about my account. Can you help me change my payment method? I want to use a different card for my subscription. Thanks a bunch! 😄🙏🏻 |
+| Samantha Davis  | samantha.davis@madeBy.AI | Hello. I've been a loyal customer for over a year, and I noticed that my subscription fee was higher than usual this month. I'm a bit confused about why this increase happened without any prior notice. Could you please explain the reason behind the price change? I appreciate your prompt response as it will help me understand the situation better. Thank you in advance for your assistance. |
+| John Smith      | john.smith@madeBy.AI     | Hi, I recently purchased a product from your online store, but it arrived damaged. The packaging was torn and the item itself has scratches and dents. I'm really disappointed with the condition it arrived in. I would like to request a replacement or a refund for the damaged product. I have attached photos of the damage for your reference. Please let me know how we can resolve this issue. Thank you. |
+| Aisha Bello     | aisha.bello@madeBy.AI    | Hello, I recently made a purchase from your online store, and I have a question about the delivery status. I placed the order two weeks ago, and according to the tracking information, it hasn't been shipped yet. I'm concerned about the delay and would like to know when I can expect to receive my package. Can you please provide an update on the order status? I appreciate your assistance. Thank you. |
+| Karen Johnson   | karen.johnson@madeBy.AI  | Listen up! I'm beyond furious with your pathetic excuse for customer service. I ordered a product from your website over a month ago, and it still hasn't arrived! This is absolutely unacceptable, and I demand immediate action. I want a full refund for my order, and I expect to be compensated for the inconvenience and frustration caused. Your company's incompetence is beyond belief, and I will make sure to share my horrendous experience with everyone I know. Don't even bother with your generic apologies; I want real solutions and I want them now! |
+| Li Wei          | li.wei@madeBy.AI         | Good day, I have encountered a technical issue while using your product. Whenever I try to access certain features, an error message pops up. I have already tried clearing my browser cache and updating the software, but the problem persists. This is hindering my work progress, and I need a prompt resolution. Can your technical team investigate this matter and provide me with a solution? I would greatly appreciate your assistance. Thank you. |
+| Emily Davis     | emily.davis@example.com  | Hello, I'm having trouble with something on your website. Is there someone who can help me figure it out? Thank you in advance for your support! |
+
 
 ## Chat GPT 3.5-turbo Response
 GPT 3.5 responded by simply outputing the json file format without any additional details.
-Other than that, it did not follow instructions very well...
 
 ```
 {
-"account": "sarah.thompson@madeBy.AI",
+"account": "john.doe@madeBy.AI",
 "id": "98765432",
-"primary": "Technical Support",
-"secondary": "Password reset"
-}
-
-{
-"account": "michael.davis@madeBy.AI",
-"id": "12345678",
-"primary": "Account Management",
-"secondary": "Order status"
-}
-
-{
-"account": "emma.wilson@madeBy.AI",
-"id": "23456789",
 "primary": "Billing",
-"secondary": "Refund and cancellation"
+"secondary": "Cancel Subscription"
 }
-
 {
-"account": "laura.roberts@madeBy.AI",
+"account": "jane.smith@madeBy.AI",
+"id": "12345678",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "michael.johnson@madeBy.AI",
+"id": "87654321",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "emily.brown@madeBy.AI",
+"id": "45678901",
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
+}
+{
+"account": "david.wilson@madeBy.AI",
+"id": "23456789",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
+{
+"account": "sarah.thompson@madeBy.AI",
 "id": "34567890",
 "primary": "Account Management",
-"secondary": "Order confirmation"
+"secondary": "Password Reset"
 }
-
 {
-"account": "mark.anderson@madeBy.AI",
-"id": "45678901",
-"primary": "Technical Support",
-"secondary": "Device synchronization"
-}
-
-{
-"account": "sophia.ramirez@madeBy.AI",
+"account": "samantha.carter@madeBy.AI",
 "id": "56789012",
 "primary": "Billing",
-"secondary": "Return and exchange"
+"secondary": "Explanation for Charge"
 }
-
 {
-"account": "ethan.collins@madeBy.AI",
-"id": "67890123",
-"primary": "Account Management",
-"secondary": "Account suspension"
-}
-
-{
-"account": "olivia.smith@madeBy.AI",
+"account": "daniel.martinez@madeBy.AI",
 "id": "78901234",
-"primary": "Account Management",
-"secondary": "Order status"
-}
-
-{
-"account": "nathan.turner@madeBy.AI",
-"id": "89012345",
 "primary": "Technical Support",
-"secondary": "Device troubleshooting"
+"secondary": "General Troubleshooting"
 }
-
 {
-"account": "chloe.adams@madeBy.AI",
-"id": "90123456",
+"account": "benjamin.taylor@madeBy.AI",
+"id": "90817263",
 "primary": "Account Management",
-"secondary": "Email subscription"
+"secondary": "Add or Change Payment Method"
 }
-
 {
-"account": "daniel.miller@madeBy.AI",
-"id": "65432109",
-"primary": "Account Management",
-"secondary": "Warranty repair/replacement"
-}
-
-{
-"account": "sophia.lee@madeBy.AI",
-"id": "76543210",
+"account": "samantha.davis@madeBy.AI",
+"id": "17263548",
 "primary": "Billing",
-"secondary": "Return or refund"
+"secondary": "Explanation for Charge"
 }
-
 {
-"account": "benjamin.wright@madeBy.AI",
-"id": "87654321",
-"primary": "Account Management",
-"secondary": "Application status"
-}
-
-{
-"account": "ava.green@madeBy.AI",
-"id": "98765432",
-"primary": "Technical Support",
-"secondary": "Device troubleshooting"
-}
-
-{
-"account": "henry.davis@madeBy.AI",
-"id": "09876543",
+"account": "john.smith@madeBy.AI",
+"id": "25364798",
 "primary": "Billing",
-"secondary": "Return and refund"
+"secondary": "Refund or Replacement"
 }
-
 {
-"account": "lily.thompson@madeBy.AI",
-"id": "21098765",
-"primary": "Account Management",
-"secondary": "Reservation confirmation"
+"account": "aisha.bello@madeBy.AI",
+"id": "36485970",
+"primary": "General Inquiry",
+"secondary": "Order Status"
 }
-
 {
-"account": "carter.adams@madeBy.AI",
-"id": "32109876",
+"account": "karen.johnson@madeBy.AI",
+"id": "48597012",
+"primary": "General Inquiry",
+"secondary": "Order Status"
+}
+{
+"account": "li.wei@madeBy.AI",
+"id": "59608123",
 "primary": "Technical Support",
-"secondary": "System installation"
+"secondary": "General Troubleshooting"
 }
-
 {
-"account": "emily.white@madeBy.AI",
-"id": "43210987",
-"primary": "Account Management",
-"secondary": "Subscription status"
+"account": "emily.davis@example.com",
+"id": "60719234",
+"primary": "General Inquiry",
+"secondary": "Speak to a Human"
 }
 ```
 
 ## Chat GPT 4 Response
-GPT 4's responded with an 'assistant" explenation and generated the reply in markdown json format as such
+GPT 4's responded with a bit of "assistant" style pre-text and generated the reply in markdown json format as such
 
-`Based on the customer's request, it seems they are having issues with logging into their account, which falls under the primary category of "Account Management". The secondary category would be "Password reset". Here is the classified customer service query in json format: `
+`Here are the evaluated entries in JSON format:`
 
-``` json
-
-{
-    "account": "sarah.thompson@madeByAI.com",
-    "id": "12345678",
-    "primary": "Account Management",
-    "secondary": "Password reset"
-}
-```
-after pasting the spreadsheet from google docs it provided the following response including the wrapping [] for some reason. It predictably performed slower than GPT 3.5 and Claude instant
-`Based on the customer's requests, they can be classified into the primary and secondary categories as below:`
 ``` json
 [
     {
-        "account": "sarah.thompson@madeBy.AI",
+        "account": "john.doe@madeBy.AI",
         "id": "12345678",
-        "primary": "Account Management",
-        "secondary": "Password reset"
+        "primary": "Billing",
+        "secondary": "Cancel Subscription"
     },
     {
-        "account": "michael.davis@madeBy.AI",
+        "account": "jane.smith@madeBy.AI",
         "id": "23456789",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
+        "primary": "Billing",
+        "secondary": "Refund or Replacement"
     },
     {
-        "account": "emma.wilson@madeBy.AI",
+        "account": "michael.johnson@madeBy.AI",
         "id": "34567890",
         "primary": "Billing",
-        "secondary": "Unsubscribe or upgrade"
+        "secondary": "Explanation for Charge"
     },
     {
-        "account": "laura.roberts@madeBy.AI",
+        "account": "emily.brown@madeBy.AI",
         "id": "45678901",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
+        "primary": "Billing",
+        "secondary": "Add or Change Payment Method"
     },
     {
-        "account": "mark.anderson@madeBy.AI",
+        "account": "david.wilson@madeBy.AI",
         "id": "56789012",
         "primary": "Technical Support",
-        "secondary": "Device compatibility"
+        "secondary": "General Troubleshooting"
     },
     {
-        "account": "sophia.ramirez@madeBy.AI",
+        "account": "sarah.thompson@madeBy.AI",
         "id": "67890123",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
+        "primary": "Account Management",
+        "secondary": "Password Reset"
     },
     {
-        "account": "ethan.collins@madeBy.AI",
+        "account": "samantha.carter@madeBy.AI",
         "id": "78901234",
-        "primary": "Account Management",
-        "secondary": "Account security"
+        "primary": "Billing",
+        "secondary": "Explanation for Charge"
     },
     {
-        "account": "olivia.smith@madeBy.AI",
+        "account": "daniel.martinez@madeBy.AI",
         "id": "89012345",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
+        "primary": "Technical Support",
+        "secondary": "General Troubleshooting"
     },
     {
-        "account": "nathan.turner@madeBy.AI",
+        "account": "benjamin.taylor@madeBy.AI",
         "id": "90123456",
-        "primary": "Technical Support",
-        "secondary": "Device compatibility"
+        "primary": "Billing",
+        "secondary": "Add or Change Payment Method"
     },
     {
-        "account": "chloe.adams@madeBy.AI",
+        "account": "samantha.davis@madeBy.AI",
         "id": "01234567",
-        "primary": "Account Management",
-        "secondary": "Update personal information"
+        "primary": "Billing",
+        "secondary": "Explanation for Charge"
     },
     {
-        "account": "daniel.miller@madeBy.AI",
+        "account": "john.smith@madeBy.AI",
+        "id": "10234567",
+        "primary": "Billing",
+        "secondary": "Refund or Replacement"
+    },
+    {
+        "account": "aisha.bello@madeBy.AI",
         "id": "11234567",
+        "primary": "General Inquiry",
+        "secondary": "Order Status"
+    },
+    {
+        "account": "karen.johnson@madeBy.AI",
+        "id": "12234567",
+        "primary": "Billing",
+        "secondary": "Refund or Replacement"
+    },
+    {
+        "account": "li.wei@madeBy.AI",
+        "id": "13234567",
         "primary": "Technical Support",
-        "secondary": "General troubleshooting"
+        "secondary": "General Troubleshooting"
     },
     {
-        "account": "sophia.lee@madeBy.AI",
-        "id": "22345678",
+        "account": "emily.davis@example.com",
+        "id": "14234567",
         "primary": "General Inquiry",
-        "secondary": "Product information"
-    },
-    {
-        "account": "benjamin.wright@madeBy.AI",
-        "id": "33456789",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
-    },
-    {
-        "account": "ava.green@madeBy.AI",
-        "id": "44567890",
-        "primary": "Technical Support",
-        "secondary": "Device compatibility"
-    },
-    {
-        "account": "henry.davis@madeBy.AI",
-        "id": "55678901",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
-    },
-    {
-        "account": "lily.thompson@madeBy.AI",
-        "id": "66789012",
-        "primary": "General Inquiry",
-        "secondary": "Product information"
-    },
-    {
-        "account": "carter.adams@madeBy.AI",
-        "id": "77890123",
-        "primary": "Technical Support",
-        "secondary": "General troubleshooting"
-    },
-    {
-        "account": "emily.white@madeBy.AI",
-        "id": "88901234",
-        "primary": "Account Management",
-        "secondary": "Update personal information"
+        "secondary": "Speak to a Human"
     }
 ]
 ``` 
+`Please note that the "id" field is randomly generated and should be unique for each entry.`
 
 ## Claude-Instant Response
-Claude-instant responded as quickly as GPT 3.5 but there are some discrepancies in the responses that we'll review at the end of the experiment
+Claude-instant responded as quickly and as neatly as GPT 3.5 
 ```
 {
+"account": "john.doe@madeBy.AI",
+"id": "34567321",
+"primary": "Billing",
+"secondary": "Cancel Subscription"
+}
+{
+"account": "jane.smith@madeBy.AI",
+"id": "75567718",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "michael.johnson@madeBy.AI",
+"id": "91953189",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "emily.brown@madeBy.AI",
+"id": "48888889",
+"primary": "Billing",
+"secondary": "Add or Change Payment Method"
+}
+{
+"account": "david.wilson@madeBy.AI",
+"id": "23324001",
+"primary": "Technical Support",
+"secondary": "General Troubleshooting"
+}
+{
 "account": "sarah.thompson@madeBy.AI",
-"id": "11775784",
+"id": "82928377",
 "primary": "Account Management",
-"secondary": "Password reset"
+"secondary": "Password Reset"
 }
 {
-"account": "michael.davis@madeBy.AI",
-"id": "05543762",
-"primary": "General Inquiry",
-"secondary":"Product information"
-}
-{
-"account": "emma.wilson@madeBy.AI",
-"id": "86321214",
+"account": "samantha.carter@madeBy.AI",
+"id": "45691354",
 "primary": "Billing",
-"secondary": "Explanation for charge"
+"secondary": "Explanation for Charge"
 }
 {
-"account": "laura.roberts@madeBy.AI",
-"id": "61898838",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "mark.anderson@madeBy.AI",
-"id": "63011715",
+"account": "daniel.martinez@madeBy.AI",
+"id": "49508683",
 "primary": "Technical Support",
-"secondary": "General troubleshooting"
+"secondary": "General Troubleshooting"
 }
 {
-"account": "sophia.ramirez@madeBy.AI",
-"id": "03177198",
-"primary": "Billing",
-"secondary": "Add a payment method"
-}
-{
-"account": "ethan.collins@madeBy.AI",
-"id": "70357382",
+"account": "benjamin.taylor@madeBy.AI",
+"id": "28617581",
 "primary": "Account Management",
-"secondary": "Account security"
+"secondary": "Add or Change Payment Method"
 }
 {
-"account": "olivia.smith@madeBy.AI",
-"id": "14828591",
+"account": "samantha.davis@madeBy.AI",
+"id": "88277749",
+"primary": "Billing",
+"secondary": "Explanation for Charge"
+}
+{
+"account": "john.smith@madeBy.AI",
+"id": "72077321",
+"primary": "Billing",
+"secondary": "Refund or Replacement"
+}
+{
+"account": "aisha.bello@madeBy.AI",
+"id": "58074754",
 "primary": "General Inquiry",
-"secondary": "Pricing"
+"secondary": "Order Status"
 }
 {
-"account": "nathan.turner@madeBy.AI",
-"id": "73351807",
+"account": "karen.johnson@madeBy.AI",
+"id": "61383027",
+"primary": "General Inquiry",
+"secondary": "Speak to a Human"
+}
+{
+"account": "li.wei@madeBy.AI",
+"id": "59927558",
 "primary": "Technical Support",
-"secondary": "Device compatibility"
+"secondary": "General Troubleshooting"
 }
 {
-"account": "chloe.adams@madeBy.AI",
-"id": "56048282",
+"account": "emily.davis@example.com",
+"id": "16391315",
 "primary": "General Inquiry",
-"secondary":"Product information"
-}
-{
-"account": "daniel.miller@madeBy.AI",
-"id": "30572307",
-"primary": "Billing",
-"secondary": "Dispute a charge"
-}
-{
-"account": "sophia.lee@madeBy.AI",
-"id": "45950620",
-"primary": "Billing",
-"secondary": "Unsubscribe or upgrade"
-}
-{
-"account": "benjamin.wright@madeBy.AI",
-"id": "70952218",
-"primary": "General Inquiry",
-"secondary": "Product information"
-}
-{
-"account": "ava.green@madeBy.AI",
-"id": "11435407",
-"primary": "Technical Support",
-"secondary": "Device compatibility"
-}
-{
-"account": "henry.davis@madeBy.AI",
-"id": "34934079",
-"primary": "Billing",
-"secondary":"Unsubscribe or upgrade"
-}
-{
-"account": "lily.thompson@madeBy.AI",
-"id": "40454999",
-"primary": "General Inquiry",
-"secondary": "Pricing"
-}
-{
-"account": "carter.adams@madeBy.AI",
-"id": "99108335",
-"primary": "Technical Support",
-"secondary": "General troubleshooting"
-}
-{
-"account": "emily.white@madeBy.AI",
-"id": "10656859",
-"primary": "Billing",
-"secondary": "Dispute a charge"
+"secondary": "General Inquiry"
 }
 ```
 
 ## Claude-Instant 100k Response
 Claude-Instant 100k also performed as quickly as Claude-Instant and GPT 3.5. 
-On the initial prompt it simply provided the json formatted reply. 
+On the initial prompt it provided a mis-formatted JSON style reply
 ```
 {
 "account": "sarah.thompson@madeBy.AI",
