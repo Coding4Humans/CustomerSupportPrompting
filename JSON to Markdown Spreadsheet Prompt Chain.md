@@ -1,6 +1,6 @@
 ## Preface
 After a few itterations with small changes i was able to get GPT 3.5 to format all the syntehsized JSON data into a markdown spreadsheet format. 
-To ge thtis to work i had to create the first two rows as an example, explicitely request that it replace "," with <br>, remove the quotation marks ", and manually correct the weird formatting from the copied responses from the various LLMs. 
+To ge thtis to work i had to create the first two rows as an example, explicitely request that it replace "," with `<br>`, remove the quotation marks, and manually correct the weird formatting from the copied responses from the various LLMs. 
 
 <br> is explicitely used to enable a clean and readable paste into google sheets
 
